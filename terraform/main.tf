@@ -1,6 +1,6 @@
 provider "databricks" {
-    host = var.hostname
-    token = var.pat_token
+  host  = var.hostname
+  token = var.pat_token
 }
 
 data "databricks_current_user" "me" {}
@@ -21,12 +21,12 @@ resource "databricks_notebook" "this" {
 
 resource "databricks_notebook" "test" {
   source = "../notebooks/test.ipynb"
-  path = "${data.databricks_current_user.me.home}/test"
+  path   = "${data.databricks_current_user.me.home}/test"
 }
 
 resource "databricks_notebook" "test_2" {
   source = "../notebooks/test_2.py"
-  path = "${data.databricks_current_user.me.home}/test_2"
+  path   = "${data.databricks_current_user.me.home}/test_2"
 }
 
 resource "databricks_schema" "sandbox" {

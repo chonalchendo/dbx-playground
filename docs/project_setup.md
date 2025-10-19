@@ -1,5 +1,5 @@
 # Project Setup
-## Checklist 
+## Checklist
 - Sign up to Databricks free edition
 - Set up project with uv
 - Download dbt-core and create dbt project
@@ -7,7 +7,7 @@
 - Set up Dev Container
 - Create Justfile for common CLI commands
 - Install prek for pre-commit checks
-- Install Rust based sqruff 
+- Install Rust based sqruff
 - Create terraform area to set up databricks infrastructure
 - Create branching strategy - create new branch when building a new feature
 - Create two github actions workflows: ci.yaml and cd.yaml, run when creating a pull request into main/master branch.
