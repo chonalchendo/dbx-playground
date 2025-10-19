@@ -43,3 +43,23 @@ checks = [
 notebooks = [
     "ipykernel>=7.0.1",
 ]
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+tag_format = "v$version"
+version_schema = "pep440"
+version_provider = "pep621"
+changelog_start_rev = "v0.1.0"
+update_changelog_on_bump = true
+
+[tool.ruff]
+fix = true
+indent-width = 4
+line-length = 88
+target-version = "py313"
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
