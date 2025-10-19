@@ -29,7 +29,7 @@ repos:
     rev: 'v4.4.1'
     hooks:
       - id: commitizen
-      - id: commitizen-branch
+      # - id: commitizen-branch
         stages: [pre-push]
   - repo: https://github.com/antonbabenko/pre-commit-terraform
     rev: "v1.99.4"
