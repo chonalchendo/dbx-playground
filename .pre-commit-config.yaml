@@ -25,12 +25,12 @@ repos:
     rev: '1.8.3'
     hooks:
     - id: bandit
-  - repo: https://github.com/commitizen-tools/commitizen
-    rev: 'v4.4.1'
-    hooks:
-      - id: commitizen
+  # - repo: https://github.com/commitizen-tools/commitizen
+  #   rev: 'v4.4.1'
+  #   hooks:
+  #     - id: commitizen
       # - id: commitizen-branch
-        stages: [pre-push]
+        # stages: [pre-push]
   - repo: https://github.com/antonbabenko/pre-commit-terraform
     rev: "v1.99.4"
     hooks:
