@@ -1,0 +1,5 @@
+job:
+  KIND: ExtractionJob
+  path: data/raw/transactions.parquet
+  dataset: kartik2112/fraud-detection
+  unzip: True
