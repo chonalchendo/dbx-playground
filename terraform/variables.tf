@@ -21,6 +21,6 @@ variable "project_name" {
 }
 
 variable "bucket_name" {
-  type = string
+  type        = string
   description = "The project bucket name"
 }
