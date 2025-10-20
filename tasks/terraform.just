@@ -5,13 +5,17 @@ terraform-init:
 
 # Plan Terraform changes
 [group('terraform')]
-terraform-plan:
-    cd terraform && terraform init && terraform plan
+terraform-plan: terraform-init
+    terraform plan
 
 # Run Terraform
 [group('terraform')]
-terraform-apply:
-    cd terraform && terraform init && terraform apply -auto-approve
+terraform-apply: terraform-init
+    terraform apply -auto-approve
+
+# Validate Terraform
+terraform-validate: terraform-init
+    terraform validate
 
 # Output Terraform values
 [group('terraform')]
