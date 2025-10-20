@@ -17,11 +17,11 @@ resource "databricks_notebook" "this" {
 }
 
 resource "databricks_notebook" "test" {
-  source = "../notebooks/test.ipynb"
+  source = "${path.root}/../notebooks/test.ipynb"
   path   = "${var.home}/test"
 }
 
 resource "databricks_notebook" "test_2" {
-  source = "../notebooks/test_2.py"
+  source = "${path.root}/../notebooks/test_2.py"
   path   = "${var.home}/test_2"
 }
