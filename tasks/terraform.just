@@ -14,6 +14,7 @@ terraform-apply: terraform-init
     terraform apply -auto-approve
 
 # Validate Terraform
+[group('terraform')]
 terraform-validate: terraform-init
     terraform validate
 
