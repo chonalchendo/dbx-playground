@@ -36,6 +36,9 @@ repos:
     hooks:
       - id: terraform_fmt
       - id: terraform_validate
+        entry: bash -c "cd terraform && terraform validate"
+        language: system
+        stages: [commit]
   - repo: https://github.com/dbt-checkpoint/dbt-checkpoint
     rev: v2.0.7
     hooks:
