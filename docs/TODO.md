@@ -1,4 +1,4 @@
-# Project Checklist 
+# Project Checklist
 
 - [x] Upload data to s3 bucket
 - [ ] Add logging to extraction job
