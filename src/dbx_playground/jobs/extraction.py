@@ -3,8 +3,11 @@ from pathlib import Path
 
 import kaggle
 import polars as pl
+from dotenv import load_dotenv
 
 import dbx_playground.jobs.base as base
+
+load_dotenv()
 
 
 class ExtractionJob(base.Job):
@@ -19,13 +22,18 @@ class ExtractionJob(base.Job):
         kaggle.api.authenticate()
 
         output_dir = Path(self.path).parent
-        Path(output_dir).mkdir(exist_ok=True, parents=True)
+
+        tmp_folder = Path("tmp")
+        tmp_folder.mkdir(exist_ok=True)
+
+        if "s3" not in self.path:
+            output_dir.mkdir(exist_ok=True, parents=True)
 
         kaggle.api.dataset_download_files(
-            dataset=self.dataset, path=output_dir, unzip=self.unzip
+            dataset=self.dataset, path=tmp_folder, unzip=self.unzip
         )
 
-        paths = Path(output_dir).glob("*.csv")
+        paths = Path("tmp").glob("*.csv")
 
         datasets = []
         for path in paths:
@@ -38,6 +46,9 @@ class ExtractionJob(base.Job):
             path.unlink()
 
             datasets.append(data)
+
+        # delete tmp folder
+        tmp_folder.rmdir()
 
         # concat datasets together
         df: pl.DataFrame = pl.concat(datasets, how="vertical_relaxed")
