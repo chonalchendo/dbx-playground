@@ -18,33 +18,34 @@ class IngestionJob(base.Job):
     """Streams data from cloud storage to Delta tables."""
 
     KIND: T.Literal["IngestionJob"] = "IngestionJob"
-    path: str
-    format: str
-    schema: str
-    table: str
-    mode: str = "append"
+    spark_app_name: str
+    input_path: str
+    input_format: str
+    output_schema: str
+    output_table: str
+    mode: str
 
     @T.override
     def run(self) -> base.Locals:
         """Execute the ingestion job."""
         logger.info("Initializing Spark Session")
-        spark = SparkSession.builder.appName("S3ToBronze").getOrCreate()
+        spark = SparkSession.builder.appName(self.spark_app_name).getOrCreate()
 
-        logger.info(f"Reading file: {self.path}")
+        logger.info(f"Reading file: {self.input_path}")
         df = (
             spark.readStream.format("cloudFiles")
-            .option("cloudFiles.format", self.format)
-            .load(self.path)
+            .option("cloudFiles.format", self.input_format)
+            .load(self.input_path)
         )
 
-        logger.info(f"Writing to table: {self.schema}.{self.table}")
-        checkpoint_path = f"/mnt/{self.schema}/_checkpoints/{self.table}"
+        logger.info(f"Writing to table: {self.output_schema}.{self.output_table}")
+        checkpoint_path = f"/mnt/{self.output_schema}/_checkpoints/{self.output_table}"
 
         (
             df.writeStream.format("delta")
             .option("checkpointLocation", checkpoint_path)
             .outputMode(self.mode)  # Fixed: was self.append
-            .table(f"{self.schema}.{self.table}")
+            .table(f"{self.output_schema}.{self.output_table}")
         )
 
 
@@ -56,7 +57,7 @@ def main() -> int:
 
         # Load and merge configuration
         logger.info(f"Loading configuration from: {args_.config}")
-        merged_config = configs.load_and_merge_configs([args_.config], args.extras)
+        merged_config = configs.load_and_merge_configs([args_.config], args_.extras)
         config_object = configs.to_object(merged_config)
 
         rich.print("[bold blue]Configuration:[/bold blue]")
