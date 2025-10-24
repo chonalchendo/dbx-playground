@@ -1,4 +1,5 @@
 KIND: IngestionJob
+spark_app_name: S3ToBronze
 # input
 input_path: s3://dbx-playground-bucket/raw/transactions.parquet
 input_format: parquet
