@@ -1,5 +1,4 @@
-job:
-  KIND: ExtractionJob
-  path: s3://dbx-playground-bucket/raw/transactions.parquet
-  dataset: kartik2112/fraud-detection
-  unzip: True
+KIND: ExtractionJob
+input_dataset: kartik2112/fraud-detection
+output_path: s3://dbx-playground-bucket/raw/transactions.parquet
+unzip: True
