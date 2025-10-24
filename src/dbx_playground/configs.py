@@ -11,18 +11,16 @@ type Configs = T.Sequence[Config]
 def get_repo_root() -> Path:
     """Get the repository root directory.
 
-    In Databricks, this resolves from the script location.
+    In Databricks with Git integration, finds the cloned repo.
     Locally, uses the current working directory.
 
     Returns:
         Path: The repository root directory.
     """
     if "DATABRICKS_RUNTIME_VERSION" in os.environ:
-        # In Databricks, calculate from this file's location
-        # This file is at: src/dbx_playground/configs.py
-        this_file = Path(__file__).resolve()
-        # Go up: configs.py -> dbx_playground -> src -> repo_root
-        return this_file.parent.parent.parent
+        # In Databricks, the working directory is set to the Git repo root
+        # when using git_source in jobs
+        return Path.cwd()
     else:
         # Local development - use current working directory
         return Path.cwd()
@@ -41,9 +39,13 @@ def resolve_config_path(config_path: str | Path) -> Path:
     resolved_path = repo_root / config_path
 
     if not resolved_path.exists():
+        # Add debugging info
+        cwd = Path.cwd()
         raise FileNotFoundError(
             f"Config file not found: {resolved_path}\n"
             f"Repository root: {repo_root}\n"
+            f"Current working directory: {cwd}\n"
+            f"Directory contents: {list(cwd.iterdir()) if cwd.exists() else 'N/A'}\n"
             f"Relative path: {config_path}"
         )
 
