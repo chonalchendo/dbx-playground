@@ -6,20 +6,39 @@ terraform {
   }
 }
 
-resource "databricks_schema" "sandbox" {
+resource "databricks_schema" "bronze" {
   catalog_name = var.catalog_name
-  name         = "sandbox"
-  comment      = "this database is managed by terraform"
+  name         = "bronze"
+  comment      = "Bronze layer"
   properties = {
     kind = "various"
   }
 }
 
-resource "databricks_schema" "prod" {
+resource "databricks_schema" "silver" {
   catalog_name = var.catalog_name
-  name         = "prod"
-  comment      = "this database is managed by terraform"
+  name         = "silver"
+  comment      = "Silver player"
   properties = {
     kind = "various"
   }
 }
+
+resource "databricks_schema" "gold" {
+  catalog_name = var.catalog_name
+  name         = "gold"
+  comment      = "Gold layer"
+  properties = {
+    kind = "various"
+  }
+}
+
+resource "databricks_schema" "libraries" {
+  catalog_name = var.catalog_name
+  name         = "libraries"
+  comment      = "Schema to store project artifacts e.g. Python packages."
+  properties = {
+    kind = "various"
+  }
+}
+
