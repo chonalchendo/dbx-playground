@@ -1,4 +1,4 @@
-output "wheel_path" {
+output "whl_path" {
   value = databricks_file.whl.path
 }
 
