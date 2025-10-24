@@ -41,4 +41,3 @@ resource "databricks_schema" "libraries" {
     kind = "various"
   }
 }
-

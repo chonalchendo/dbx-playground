@@ -26,7 +26,7 @@ variable "script_path" {
 
 variable "config_path" {
   description = "Path to config file used to configure job"
-  type = string
+  type        = string
 }
 
 variable "whl_path" {
