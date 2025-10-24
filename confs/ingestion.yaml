@@ -1,0 +1,7 @@
+job:
+  KIND: IngestionJob
+  path: s3://dbx-playground-bucket/raw/transactions.parquet
+  format: parquet
+  schema: bronze
+  table: bronze_transactions
+  mode: overwrite
