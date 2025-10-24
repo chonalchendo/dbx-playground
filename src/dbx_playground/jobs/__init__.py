@@ -1,3 +1,3 @@
-from .extraction import ExtractionJob
+from .ingestion import IngestionJob
 
-JobKind = ExtractionJob
+JobKind = IngestionJob
