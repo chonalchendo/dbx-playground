@@ -19,9 +19,21 @@ module "schema" {
 module "dbx_playground_library" {
   source         = "./modules/databricks/libraries"
   catalog_name   = "workspace"
-  schema_name    = "prod"
+  schema_name    = "libraries"
   volume_name    = "volume"
   whl_local_path = "${path.module}/../dist/dbx_playground-0.1.0-py3-none-any.whl"
+}
+
+module "bronze_ingestion_job" {
+  source = "./modules/databricks/jobs"
+  job_name = "bronze_ingestion_job"
+  task_key = "bronze_load_task"
+  repo_url = "https://github.com/chonalchendo/dbx-playground.git"
+  branch = "main"
+  script_path = "src/dbx_playground/jobs/ingestion.py"
+  config_path = "confs/ingestion.yaml"
+  whl_path = module.dbx_playground_library.whl_path
+  depends_on = [ module.dbx_playground_library ]
 }
 
 # aws modules
