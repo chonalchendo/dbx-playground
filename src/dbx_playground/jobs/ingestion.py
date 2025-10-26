@@ -5,6 +5,7 @@ import sys
 import typing as T
 
 import rich
+from databricks.sdk.runtime import dbutils
 from loguru import logger
 from pydantic import ValidationError
 from pyspark.sql import SparkSession
@@ -30,6 +31,19 @@ class IngestionJob(base.Job):
         """Execute the ingestion job."""
         logger.info("Initializing Spark Session")
         spark = SparkSession.builder.appName(self.spark_app_name).getOrCreate()
+
+        # Configure S3 access using secrets
+        access_key = spark.conf.get(
+            "spark.databricks.secrets.aws.aws-access-key-id",
+            dbutils.secrets.get(scope="aws", key="aws-access-key-id"),
+        )
+        secret_key = spark.conf.get(
+            "spark.databricks.secrets.aws.aws-secret-access-key",
+            dbutils.secrets.get(scope="aws", key="aws-secret-access-key"),
+        )
+
+        spark.conf.set("fs.s3a.access.key", access_key)
+        spark.conf.set("fs.s3a.secret.key", secret_key)
 
         logger.info(f"Reading file: {self.input_path}")
         df = (
